@@ -90,3 +90,7 @@ psycopg2-binary
 whitenoise
 django-storages
 boto3
+gunicorn
+psycopg2-binary
+dj-database-url
+whitenoise
