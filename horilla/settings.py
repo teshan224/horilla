@@ -116,8 +116,13 @@ WSGI_APPLICATION = "horilla.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 if env("DATABASE_URL", default=None):
+    import dj_database_url
     DATABASES = {
-        "default": env.db(),
+        "default": dj_database_url.config(
+            default=env("DATABASE_URL"),
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
     }
 else:
     DATABASES = {
@@ -166,7 +171,7 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
